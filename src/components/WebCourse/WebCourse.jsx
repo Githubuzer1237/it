@@ -5,6 +5,7 @@ import Background3D from '../Background3D/Background3D'
 import AnimatedSpan from '../AnimatedSpan/AnimatedSpan'
 
 const WebCourse = ( {price} ) => {
+  console.log('Цена курса WebCourse:', price); // Логируем пропс price
   return (
     <>
       <section id='courses' className={s.hero}>

@@ -1,24 +1,36 @@
 
+
 // import React, { useState, useEffect } from 'react';
 
 // const AdminPanel = () => {
 //   const [prices, setPrices] = useState({});
-//   const [updated, setUpdated] = useState(false);
+//   const [saveStatus, setSaveStatus] = useState(false);
 
 //   useEffect(() => {
-//     const storedPrices = JSON.parse(localStorage.getItem("prices"));
-//     setPrices(storedPrices || {});
+//     fetch('http://localhost:5000/api/prices')
+//       .then(response => response.json())
+//       .then(data => setPrices(data));
 //   }, []);
 
 //   const updatePrice = (key, value) => {
 //     const updatedPrices = { ...prices, [key]: value };
 //     setPrices(updatedPrices);
-//     localStorage.setItem("prices", JSON.stringify(updatedPrices));
 
-//     setUpdated(true);
-//     setTimeout(() => {
-//       setUpdated(false);
-//     }, 2000); 
+//     fetch('http://localhost:5000/api/prices', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({ course: key, price: value }),
+//     })
+//       .then(response => response.json())
+//       .then(data => {
+//         console.log(data.message);
+//         setSaveStatus(true);
+//         setTimeout(() => {
+//           setSaveStatus(false);
+//         }, 2000);
+//       });
 //   };
 
 //   return (
@@ -31,9 +43,6 @@
 //             type="text"
 //             value={prices.WebCourse || ''}
 //             onChange={(e) => updatePrice("WebCourse", e.target.value)}
-//             style={{ backgroundColor: updated ? '#d4edda' : 'white' }}
-           
-            
 //           />
 //         </label>
 //       </div>
@@ -44,7 +53,6 @@
 //             type="text"
 //             value={prices.Grafic || ''}
 //             onChange={(e) => updatePrice("Grafic", e.target.value)}
-//             style={{ backgroundColor: updated ? '#d4edda' : 'white' }} 
 //           />
 //         </label>
 //       </div>
@@ -55,36 +63,42 @@
 //             type="text"
 //             value={prices.ScratchSection || ''}
 //             onChange={(e) => updatePrice("ScratchSection", e.target.value)}
-//             style={{ backgroundColor: updated ? '#d4edda' : 'white' }} 
-
 //           />
 //         </label>
+//       </div>
+//       <div>
+//         <button disabled={saveStatus}>
+//           {saveStatus ? 'Сохранено' : 'Сохранить изменения'}
+//         </button>
 //       </div>
 //     </div>
 //   );
 // };
 
 // export default AdminPanel;
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const AdminPanel = () => {
   const [prices, setPrices] = useState({});
-  const [saveStatus, setSaveStatus] = useState(false);
-
-  useEffect(() => {
-    const storedPrices = JSON.parse(localStorage.getItem("prices"));
-    setPrices(storedPrices || {});
-  }, []);
 
   const updatePrice = (key, value) => {
     const updatedPrices = { ...prices, [key]: value };
     setPrices(updatedPrices);
-    localStorage.setItem("prices", JSON.stringify(updatedPrices));
 
-    setSaveStatus(true);
-    setTimeout(() => {
-      setSaveStatus(false);
-    }, 2000); // Восстанавливаем статус через 2 секунды
+    // Логируем, что цены обновлены
+    console.log('Обновленные цены в админке:', updatedPrices);
+
+    fetch('http://localhost:5000/api/prices', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ course: key, price: value }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data.message); // Логируем ответ от сервера
+      });
   };
 
   return (
@@ -121,9 +135,7 @@ const AdminPanel = () => {
         </label>
       </div>
       <div>
-        <button disabled={saveStatus}>
-          {saveStatus ? 'Сохранено' : 'Сохранить изменения'}
-        </button>
+        <button>Сохранить изменения</button>
       </div>
     </div>
   );
