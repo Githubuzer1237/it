@@ -5,7 +5,17 @@ import Background3D from '../Background3D/Background3D'
 import AnimatedSpan from '../AnimatedSpan/AnimatedSpan'
 
 const WebCourse = ( {price} ) => {
-  console.log('Цена курса WebCourse:', price); // Логируем пропс price
+  console.log('Цена курса WebCourse:', price); 
+
+  
+  const scrollToConnectSection = () => {
+    const section = document.getElementById("zapis");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+
   return (
     <>
       <section id='courses' className={s.hero}>
@@ -19,7 +29,7 @@ const WebCourse = ( {price} ) => {
 
             <div className={s.inner}>
               <b>{price} </b>
-              <Link to="/">→ Курс мечты</Link>
+              <Link onClick={scrollToConnectSection}> → Курс мечты</Link>
             </div>
           </div>
         </div>

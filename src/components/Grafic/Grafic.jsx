@@ -1,24 +1,3 @@
-// import React from 'react'
-// import s from './Grafic.module.scss'
-// import { Link } from 'react-router-dom'
-// const Grafic = () => {
-//   return (
-//     <>
-
-//     <div className={s.banner}>
-//         <div className={s.content}>
-//             <div>КУРСЫ</div>
-//             <div>ГРАФИЧЕСКОГО ДИЗАЙНА</div>
-//             <div>
-//                 <Link to={'/studio'}><button>Курс мечты</button></Link>
-//             </div>
-//         </div>
-//     </div>
-//     </>
-//   )
-// }
-
-// export default Grafic
 
 
 import React from 'react';
@@ -26,6 +5,16 @@ import s from './Grafic.module.scss';
 import { Link } from 'react-router-dom';
 
 const Grafic = ( {price} ) => {
+
+
+  const scrollToConnectSection = () => {
+    const section = document.getElementById("zapis");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+  
+  
   return (
     <div className={s.banner}>
       <div className={s.content}>
@@ -34,9 +23,9 @@ const Grafic = ( {price} ) => {
         <div className={s.curs}>
         <b>{price} </b>
 
-          <Link className={s.link} to={'/studio'}>
+          <Link className={s.link} >
 
-            <button  >Курс мечты</button>
+            <button onClick={scrollToConnectSection}  >Курс мечты</button>
           </Link>
         </div>
       </div>
